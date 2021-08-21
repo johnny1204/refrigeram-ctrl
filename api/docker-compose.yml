@@ -9,9 +9,9 @@ services:
       - 8080:80
     depends_on:
       - php
-      - db
+      - mysql
 
-  db:
+  mysql:
     image: mariadb:10.5
     restart: always
     container_name: refrigeram_api_db
@@ -31,7 +31,7 @@ services:
     build: ./docker/php
     container_name: refrigeram_api_php
     depends_on:
-      - db
+      - mysql
     volumes:
       - .:/var/www/html
 
@@ -61,24 +61,24 @@ services:
     command: 'java -jar schemaspy.jar'
     working_dir: '/app'
     links:
-      - db
+      - mysql
 
   redoc:
     image: redocly/redoc
     container_name: refrigeram_api_redoc
     ports:
-      - 8004:80
+      - 8005:80
     volumes:
       - ./openapi.yml:/usr/share/nginx/html/openapi.yml
     environment:
-      PAGE_TITLE: baby_diary api
+      PAGE_TITLE: refrigeram api
       SPEC_URL: openapi.yml
 
   api-mock:
     image: stoplight/prism
     container_name: refrigeram_api_mock
     ports:
-      - 4011:4010
+      - 4012:4010
     command: mock -h 0.0.0.0 -d /app/openapi.yml
     volumes:
       - ./openapi.yml:/app/openapi.yml

@@ -1,0 +1,85 @@
+openapi: 3.0.0
+info:
+  title: "refrigeram-ctrl api"
+  version: v1.0
+servers:
+  - url: "http://localhost:8003"
+    description: "local open-api url"
+  - url: "http://localhost"
+    description: "local refrigeram-ctrl url"
+paths:
+  /api/cart/update/:
+    put:
+      tags:
+        - カート
+      summary: カート更新
+      parameters:
+        - name: food_name
+          in: query
+          description: 食品名
+          required: true
+          schema:
+            type: string
+            example: 鶏胸肉
+        - name: count
+          in: query
+          description: 個数
+          required: true
+          schema:
+            type: integer
+            example: 1
+        - $ref: "#/components/parameters/X-XSRF-TOKEN"
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                properties:
+                  result:
+                    {
+                      description: 結果,
+                      allOf:
+                        [
+                          {
+                            schema: Data,
+                            required: [success],
+                            properties:
+                              {
+                                success:
+                                  {
+                                    description: サクセスコード,
+                                    type: integer,
+                                    example: 200,
+                                  },
+                              },
+                            type: object,
+                          },
+                        ],
+                    }
+                type: object
+        "400":
+          description: パラメータ不足
+        "500":
+          description: "Internet Server Error"
+components:
+  parameters:
+    X-XSRF-TOKEN:
+      name: X-XSRF-TOKEN
+      in: header
+      description: XSRFトークン
+      required: true
+      schema:
+        type: string
+        default: "{{token}}"
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      name: laravel_session
+      in: cookie
+tags:
+  - name: カート
+    description: OpenApiの基本情報を記載
+externalDocs:
+  description: "Find out more about Swagger-PHP"
+  url: "https://zircote.github.io/swagger-php/Getting-started.html"
