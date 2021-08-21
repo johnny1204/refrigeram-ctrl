@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+    # react-nginx:
+    #     image: nginx
+    #     container_name: nginx
+    #     ports:
+    #         - 8888:80
+    #     volumes:
+    #         - .:/var/www/html
+    #         - ./docker/nginx/:/etc/nginx/conf.d/
+    #     depends_on:
+    #         - react
+    react:
+        build: ./docker/react
+        container_name: react
+        volumes:
+            - .:/usr/src/app
+        command: sh -c "yarn start"
+        ports:
+            - 3001:3000
+        stdin_open: true
