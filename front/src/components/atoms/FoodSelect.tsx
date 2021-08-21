@@ -8,9 +8,12 @@ type Props = {
 		text: string;
 		value: string;
 	}[];
+	isDisabled: () => boolean;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	onChange: (value: any) => void;
 };
 
-const FoodSelect: FC<Props> = ({ options }) => (
+const FoodSelect: FC<Props> = ({ options, isDisabled, onChange }) => (
 	<Form.Field>
 		<label>食品名</label>
 		<Dropdown
@@ -18,7 +21,9 @@ const FoodSelect: FC<Props> = ({ options }) => (
 			fluid
 			search
 			selection
+			disabled={isDisabled()}
 			options={options}
+			onChange={(e, { value }) => onChange(value)}
 		/>
 	</Form.Field>
 );

@@ -1,14 +1,14 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
 import { FC, useState } from 'react';
 import { Button, Icon, Modal } from 'semantic-ui-react';
-import CartModalForm from '../../components/molecules/CartModalForm';
+import CartModalForm from '../molecules/CartModalForm';
 import { foodStuffs } from '../../data/data';
 
 const CartModal: FC = () => {
 	const [open, setOpen] = useState(false);
+	const [disabled, setDisableSubmit] = useState(true);
 
 	const dropDownOptions = foodStuffs.map((type) => ({
-		key: type.type,
+		key: type.name,
 		text: type.name,
 		value: type.name,
 	}));
@@ -28,10 +28,17 @@ const CartModal: FC = () => {
 		>
 			<Modal.Header>カート追加</Modal.Header>
 			<Modal.Content>
-				<CartModalForm options={dropDownOptions} />
+				<CartModalForm
+					options={dropDownOptions}
+					disabledSubmit={(result) => setDisableSubmit(result)}
+				/>
 			</Modal.Content>
 			<Modal.Actions>
-				<Button color="green" onClick={() => setOpen(false)}>
+				<Button
+					color="green"
+					onClick={() => setOpen(false)}
+					disabled={disabled}
+				>
 					<Icon name="checkmark" /> 登録
 				</Button>
 			</Modal.Actions>

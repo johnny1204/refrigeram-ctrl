@@ -4,12 +4,16 @@ import { Form } from 'semantic-ui-react';
 
 type Props = {
 	label: string;
+	setValue: (val: string) => void;
 };
 
-const FoodInput: FC<Props> = ({ label }) => (
+const FoodInput: FC<Props> = ({ label, setValue = () => undefined }) => (
 	<Form.Field>
 		<label>{label}</label>
-		<input placeholder="鶏胸肉" />
+		<input
+			placeholder="鶏胸肉"
+			onChange={(e) => setValue(e.target.value)}
+		/>
 	</Form.Field>
 );
 

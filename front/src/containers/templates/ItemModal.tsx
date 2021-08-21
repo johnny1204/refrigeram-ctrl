@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { FC, useState } from 'react';
 import { Button, Icon, Modal } from 'semantic-ui-react';
-import FoodModalForm from '../../components/molecules/FoodModalForm';
+import FoodModalForm from '../molecules/FoodModalForm';
 import { FoodType } from '../../data/data';
 
 type Props = {
@@ -10,6 +10,7 @@ type Props = {
 
 const ItemModal: FC<Props> = ({ types }) => {
 	const [open, setOpen] = useState(false);
+	const [disabled, setDisableSubmit] = useState(true);
 
 	const dropDownOptions = Object.values(types)
 		.filter((value) => value.type !== '')
@@ -34,10 +35,17 @@ const ItemModal: FC<Props> = ({ types }) => {
 		>
 			<Modal.Header>在庫追加</Modal.Header>
 			<Modal.Content>
-				<FoodModalForm options={dropDownOptions} />
+				<FoodModalForm
+					options={dropDownOptions}
+					disabledSubmit={(result) => setDisableSubmit(result)}
+				/>
 			</Modal.Content>
 			<Modal.Actions>
-				<Button color="green" onClick={() => setOpen(false)}>
+				<Button
+					color="green"
+					onClick={() => setOpen(false)}
+					disabled={disabled}
+				>
 					<Icon name="checkmark" /> 登録
 				</Button>
 			</Modal.Actions>
