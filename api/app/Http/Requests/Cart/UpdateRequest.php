@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Requests\Cart;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -24,7 +23,8 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'food_name' => 'required|string',
+            'count'     => 'required|integer|min:1',
         ];
     }
 }

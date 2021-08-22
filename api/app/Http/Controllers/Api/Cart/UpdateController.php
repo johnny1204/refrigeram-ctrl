@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\Cart;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Cart\UpdateRequest;
-use App\Services\Api\CartService;
+use App\Services\CartService;
 use Illuminate\Http\JsonResponse;
 
 /**
@@ -62,6 +62,10 @@ use Illuminate\Http\JsonResponse;
  *   @OA\Response(
  *     response="400",
  *     description="パラメータ不足",
+ *   ),
+ *   @OA\Response(
+ *     response="404",
+ *     description="リソースなし",
  *   ),
  *   @OA\Response(
  *     response="500",

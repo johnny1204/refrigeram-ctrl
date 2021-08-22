@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Database\RecordsNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
@@ -27,15 +28,10 @@ class Handler extends ExceptionHandler
         'password_confirmation',
     ];
 
-    /**
-     * Register the exception handling callbacks for the application.
-     *
-     * @return void
-     */
-    public function register()
+    public function render($request, Throwable $e)
     {
-        $this->reportable(function (Throwable $e) {
-            //
-        });
+        if ($e instanceof RecordsNotFoundException) {
+            return response()->json(['result' => ['failed' => $e->getMessage()]], 404);
+        }
     }
 }

@@ -8,6 +8,39 @@ servers:
   - url: "http://localhost"
     description: "local refrigeram-ctrl url"
 paths:
+  /api/cart/:
+    get:
+      tags:
+        - カート
+      summary: カート取得
+      parameters:
+        - $ref: "#/components/parameters/X-XSRF-TOKEN"
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - {
+                      schema: Data,
+                      required: [data],
+                      properties:
+                        {
+                          data:
+                            {
+                              description: カート中身,
+                              type: array,
+                              items:
+                                {
+                                  $ref: "#/components/schemas/CartListResource",
+                                },
+                            },
+                        },
+                      type: object,
+                    }
+        "500":
+          description: "Internet Server Error"
   /api/cart/update/:
     put:
       tags:
@@ -60,9 +93,32 @@ paths:
                 type: object
         "400":
           description: パラメータ不足
+        "404":
+          description: リソースなし
         "500":
           description: "Internet Server Error"
 components:
+  schemas:
+    CartListResource:
+      description: カートアイテム
+      required:
+        - id
+        - food_name
+        - count
+      properties:
+        id:
+          description: ID
+          type: integer
+          example: 1
+        food_name:
+          description: 食品名
+          type: string
+          example: 鶏胸肉
+        count:
+          description: 個数
+          type: integer
+          example: 2
+      type: object
   parameters:
     X-XSRF-TOKEN:
       name: X-XSRF-TOKEN
