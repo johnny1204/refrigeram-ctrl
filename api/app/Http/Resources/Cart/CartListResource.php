@@ -20,7 +20,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
  *         example=1
  *     ),
  *     @OA\Property(
- *         property="food_name",
+ *         property="name",
  *         type="string",
  *         description="食品名",
  *         example="鶏胸肉"
@@ -45,7 +45,7 @@ class CartListResource extends JsonResource
     {
         return [
             'id'        => $this->id,
-            'food_name' => $this->foodStuff->name,
+            'name'      => $this->foodStuff->name,
             'count'     => $this->count
         ];
     }

@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Api\Cart;
 
 use App\Http\Controllers\Controller;
@@ -44,18 +43,18 @@ use Illuminate\Http\JsonResponse;
  *         property="result",
  *         description="結果",
  *         allOf={
- *                 @OA\Schema(
- *                     schema="Data",
- *                     type="object",
- *                     required={"success"},
- *                     @OA\Property(
- *                         property="success",
- *                         type="integer",
- *                         description="サクセスコード",
- *                         example=200
- *                     )
- *                 ),
- *             }
+ *           @OA\Schema(
+ *             schema="Data",
+ *             type="object",
+ *             required={"success"},
+ *             @OA\Property(
+ *               property="success",
+ *               type="integer",
+ *               description="サクセスコード",
+ *               example=200
+ *             )
+ *           ),
+ *         }
  *       )
  *     )
  *   ),
