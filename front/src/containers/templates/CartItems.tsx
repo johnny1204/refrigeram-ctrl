@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Grid } from 'semantic-ui-react';
 import { CartItem } from '../../data/data';
 import CartCounter from '../molecules/CartCounter';
@@ -27,6 +27,10 @@ const CartItems: FC<Props> = ({ items }) => {
 			setItems(() => newItems);
 		}
 	};
+
+	useEffect(() => {
+		setItems(items);
+	}, [items, itemList]);
 
 	return (
 		<Grid style={{ margin: 20 }}>
