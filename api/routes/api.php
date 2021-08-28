@@ -13,7 +13,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('cart')->group(function () {
-    Route::get('', 'App\Http\Controllers\Api\Cart\GetController');
-    Route::put('/update', 'App\Http\Controllers\Api\Cart\UpdateController');
+Route::prefix('cart')->namespace('Cart')->group(function () {
+    Route::get('', 'GetController');
+    Route::put('/update', 'UpdateController');
+});
+
+Route::prefix('food_stuff')->namespace('FoodStuff')->group(function () {
+    Route::get('', 'GetController');
+});
+
+Route::prefix('food_type')->namespace('FoodType')->group(function () {
+    Route::get('', 'GetController');
 });

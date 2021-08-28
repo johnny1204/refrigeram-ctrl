@@ -21,7 +21,8 @@ class FoodTypeFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->text(10)
+            'name'       => $this->faker->text(10),
+            'unique_key' => $this->faker->text(10),
         ];
     }
 }

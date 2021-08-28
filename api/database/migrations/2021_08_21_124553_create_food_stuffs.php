@@ -17,6 +17,7 @@ class CreateFoodStuffs extends Migration
             $table->id();
             $table->string('name');
             $table->bigInteger('food_type_id')->unsigned();
+            $table->integer('count')->unsigned();
             $table->timestamps();
 
             $table->index('name');

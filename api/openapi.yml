@@ -1,12 +1,14 @@
 openapi: 3.0.0
 info:
-  title: "refrigeram-ctrl api"
+  title: 'refrigeram-ctrl api'
   version: v1.0
 servers:
-  - url: "http://localhost:8003"
-    description: "local open-api url"
-  - url: "http://localhost"
-    description: "local refrigeram-ctrl url"
+  -
+    url: 'http://localhost:8003'
+    description: 'local open-api url'
+  -
+    url: 'http://localhost'
+    description: 'local refrigeram-ctrl url'
 paths:
   /api/cart/:
     get:
@@ -14,103 +16,110 @@ paths:
         - カート
       summary: カート取得
       parameters:
-        - $ref: "#/components/parameters/X-XSRF-TOKEN"
+        -
+          $ref: '#/components/parameters/X-XSRF-TOKEN'
       responses:
-        "200":
+        '200':
           description: success
           content:
             application/json:
               schema:
                 allOf:
-                  - {
-                      schema: Data,
-                      required: [data],
-                      properties:
-                        {
-                          data:
-                            {
-                              description: カート中身,
-                              type: array,
-                              items:
-                                {
-                                  $ref: "#/components/schemas/CartListResource",
-                                },
-                            },
-                        },
-                      type: object,
-                    }
-        "500":
-          description: "Internet Server Error"
+                  - { schema: Data, required: [data], properties: { data: { description: カート中身, type: array, items: { $ref: '#/components/schemas/CartListResource' } } }, type: object }
+        '500':
+          description: 'Internet Server Error'
   /api/cart/update/:
     put:
       tags:
         - カート
       summary: カート更新
       parameters:
-        - name: food_name
+        -
+          name: food_name
           in: query
           description: 食品名
           required: true
           schema:
             type: string
             example: 鶏胸肉
-        - name: count
+        -
+          name: count
           in: query
           description: 個数
           required: true
           schema:
             type: integer
             example: 1
-        - $ref: "#/components/parameters/X-XSRF-TOKEN"
+        -
+          $ref: '#/components/parameters/X-XSRF-TOKEN'
       responses:
-        "200":
+        '200':
           description: success
           content:
             application/json:
               schema:
                 properties:
-                  result:
-                    {
-                      description: 結果,
-                      allOf:
-                        [
-                          {
-                            schema: Data,
-                            required: [success],
-                            properties:
-                              {
-                                success:
-                                  {
-                                    description: サクセスコード,
-                                    type: integer,
-                                    example: 200,
-                                  },
-                              },
-                            type: object,
-                          },
-                        ],
-                    }
+                  result: { description: 結果, allOf: [{ schema: Data, required: [success], properties: { success: { description: サクセスコード, type: integer, example: 200 } }, type: object }] }
                 type: object
-        "400":
+        '400':
           description: パラメータ不足
-        "404":
+        '404':
           description: リソースなし
-        "500":
-          description: "Internet Server Error"
+        '500':
+          description: 'Internet Server Error'
+  /api/food_stuff/:
+    get:
+      tags:
+        - 在庫
+      summary: 在庫リスト取得
+      parameters:
+        -
+          name: type_name
+          in: query
+          description: タイプ名
+          required: false
+          schema:
+            type: string
+            example: meat
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { schema: Data, required: [data], properties: { data: { description: 在庫リスト, type: array, items: { $ref: '#/components/schemas/FoodStuffListResource' } } }, type: object }
+        '500':
+          description: 'Internet Server Error'
+  /api/food_type/:
+    get:
+      tags:
+        - 食品タイプ
+      summary: 食品タイプリスト取得
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { schema: Data, required: [data], properties: { data: { description: 食品タイプリスト, type: array, items: { $ref: '#/components/schemas/FoodTypeListResource' } } }, type: object }
+        '500':
+          description: 'Internet Server Error'
 components:
   schemas:
     CartListResource:
       description: カートアイテム
       required:
         - id
-        - food_name
+        - name
         - count
       properties:
         id:
           description: ID
           type: integer
           example: 1
-        food_name:
+        name:
           description: 食品名
           type: string
           example: 鶏胸肉
@@ -118,6 +127,41 @@ components:
           description: 個数
           type: integer
           example: 2
+      type: object
+    FoodStuffListResource:
+      description: 在庫リストアイテム
+      required:
+        - id
+        - name
+        - count
+      properties:
+        id:
+          description: ID
+          type: integer
+          example: 1
+        name:
+          description: 食品名
+          type: string
+          example: 鶏胸肉
+        stock:
+          description: 在庫数
+          type: integer
+          example: 2
+      type: object
+    FoodTypeListResource:
+      description: 食品タイプリストアイテム
+      required:
+        - id
+        - name
+      properties:
+        id:
+          description: ID
+          type: string
+          example: meat
+        name:
+          description: タイプ名
+          type: string
+          example: 肉
       type: object
   parameters:
     X-XSRF-TOKEN:
@@ -127,15 +171,16 @@ components:
       required: true
       schema:
         type: string
-        default: "{{token}}"
+        default: '{{token}}'
   securitySchemes:
     cookieAuth:
       type: apiKey
       name: laravel_session
       in: cookie
 tags:
-  - name: カート
+  -
+    name: カート
     description: OpenApiの基本情報を記載
 externalDocs:
-  description: "Find out more about Swagger-PHP"
-  url: "https://zircote.github.io/swagger-php/Getting-started.html"
+  description: 'Find out more about Swagger-PHP'
+  url: 'https://zircote.github.io/swagger-php/Getting-started.html'

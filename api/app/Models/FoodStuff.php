@@ -1,9 +1,9 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * App\Models\FoodStuff
@@ -26,4 +26,12 @@ use Illuminate\Database\Eloquent\Model;
 class FoodStuff extends Model
 {
     use HasFactory;
+
+    /**
+     * @return BelongsTo
+     */
+    public function foodType(): BelongsTo
+    {
+        return $this->belongsTo(FoodType::class);
+    }
 }

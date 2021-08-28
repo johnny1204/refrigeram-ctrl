@@ -23,7 +23,8 @@ class FoodStuffFactory extends Factory
     {
         return [
             'food_type_id' => FoodType::factory()->create()->id,
-            'name'         => $this->faker->text(10)
+            'name'         => $this->faker->text(10),
+            'count'        => rand(1, 5)
         ];
     }
 }

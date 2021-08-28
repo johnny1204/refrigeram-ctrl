@@ -1,12 +1,12 @@
 <?php
-namespace App\Http\Resources\Cart;
+namespace App\Http\Resources\FoodStuff;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
  * @OA\Schema(
- *     schema="CartListResource",
- *     description="カートアイテム",
+ *     schema="FoodStuffListResource",
+ *     description="在庫リストアイテム",
  *     type="object",
  *     required={
  *         "id",
@@ -26,14 +26,14 @@ use Illuminate\Http\Resources\Json\JsonResource;
  *         example="鶏胸肉"
  *     ),
  *     @OA\Property(
- *         property="count",
+ *         property="stock",
  *         type="integer",
- *         description="個数",
+ *         description="在庫数",
  *         example=2
  *     ),
  * )
  */
-class CartListResource extends JsonResource
+class ListResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -44,9 +44,9 @@ class CartListResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'        => $this->id,
-            'name'      => $this->foodStuff->name,
-            'count'     => $this->count
+            'id'    => $this->id,
+            'name'  => $this->name,
+            'stock' => $this->count,
         ];
     }
 }

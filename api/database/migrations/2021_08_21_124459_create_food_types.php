@@ -16,6 +16,7 @@ class CreateFoodTypes extends Migration
         Schema::create('food_types', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('unique_key')->unique();
             $table->timestamps();
         });
     }
