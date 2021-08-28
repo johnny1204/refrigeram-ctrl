@@ -44,23 +44,20 @@ export type FoodType = {
 	name: string;
 	type: string;
 };
-type FoodTypes = FoodType[];
-
-export const foodTypes: FoodTypes = [
-	{ name: '全て', type: '' },
-	{ name: '肉', type: 'meat' },
-	{ name: '野菜', type: 'vegetable' },
-	{ name: '魚', type: 'fish' },
-];
 
 export type CartItem = {
 	name: string;
 	count: number;
 };
-type Cart = CartItem[];
 
-export const cart: Cart = [
-	{ name: '鶏もも肉', count: 1 },
-	{ name: 'たまねぎ', count: 2 },
-	{ name: 'にんじん', count: 4 },
-];
+export type CartApiResponse = {
+	data: CartItem[];
+};
+
+export type FoodStuffApiResponse = {
+	data: FoodStuff[];
+};
+
+export type FoodTypeApiResponse = {
+	data: FoodType[];
+};

@@ -1,17 +1,37 @@
-import { FC } from 'react';
+import axios from 'axios';
+import { FC, useEffect, useState } from 'react';
+import { Loader } from 'semantic-ui-react';
 import Stuffs from '../../components/templates/Stuffs';
-import { FoodStuff, foodStuffs, foodTypes } from '../../data/data';
+import { FoodStuff, FoodStuffApiResponse } from '../../data/data';
 
 const FoodStuffs: FC = () => {
-	const stuffs = Object.values(foodStuffs).map((v) => v);
+	const [foods, setFoods] = useState<FoodStuff[]>();
+	useEffect(() => {
+		// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
+		async function getFoods() {
+			const resp = await axios.get<FoodStuffApiResponse>(
+				'http://localhost:8080/api/food_stuff'
+			);
 
-	const chunkStuffs = stuffs.reduce(
-		(newarr, _, i) =>
-			i % 2 ? newarr : [...newarr, stuffs.slice(i, i + 2)],
-		[] as FoodStuff[][]
-	);
+			return resp;
+		}
 
-	return <Stuffs stuffs={chunkStuffs} foodTypes={foodTypes} />;
+		void getFoods()
+			.then((resp) => resp.data)
+			.then((data) => setFoods(data.data));
+	}, []);
+
+	if (foods) {
+		const chunkStuffs = foods.reduce(
+			(newarr, _, i) =>
+				i % 2 ? newarr : [...newarr, foods.slice(i, i + 2)],
+			[] as FoodStuff[][]
+		);
+
+		return <Stuffs stuffs={chunkStuffs} />;
+	}
+
+	return <Loader active size="large" />;
 };
 
 export default FoodStuffs;

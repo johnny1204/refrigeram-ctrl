@@ -1,19 +1,15 @@
-/* eslint-disable prefer-arrow/prefer-arrow-functions */
 import { FC, useEffect, useState } from 'react';
 import axios from 'axios';
 import { Loader } from 'semantic-ui-react';
 import CartItems from '../../containers/templates/CartItems';
-import { CartItem } from '../../data/data';
+import { CartApiResponse, CartItem } from '../../data/data';
 
-interface Response {
-	data: CartItem[];
-}
-
-const Cart: FC<Response> = () => {
-	const [cart, setCart] = useState<CartItem[] | null>(null);
+const Cart: FC = () => {
+	const [cart, setCart] = useState<CartItem[]>();
 	useEffect(() => {
+		// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 		async function getCart() {
-			const resp = await axios.get<Response>(
+			const resp = await axios.get<CartApiResponse>(
 				'http://localhost:8080/api/cart'
 			);
 
