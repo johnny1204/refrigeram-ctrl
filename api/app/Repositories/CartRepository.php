@@ -2,7 +2,6 @@
 namespace App\Repositories;
 
 use App\Models\Cart;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 
 class CartRepository
@@ -10,13 +9,11 @@ class CartRepository
     /**
      * @param string $name
      *
-     * @return Cart
+     * @return null|Cart
      */
-    public function findCartByFoodStuffName(string $name): Cart
+    public function findCartByFoodName(string $name): ?Cart
     {
-        $query = Cart::whereHas('foodStuff', fn (Builder $query) => $query->where('name', $name));
-
-        return $query->firstOrFail();
+        return Cart::whereFoodName($name)->first();
     }
 
     /**
@@ -37,5 +34,13 @@ class CartRepository
     public function getCartList(): Collection
     {
         return Cart::orderBy('id')->get();
+    }
+
+    /**
+     * @param array $data
+     */
+    public function createCartItem(array $data): void
+    {
+        Cart::create(['food_name' => $data['food_name'], 'count' => $data['count']]);
     }
 }

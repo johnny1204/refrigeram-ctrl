@@ -45,7 +45,7 @@ class CartListResource extends JsonResource
     {
         return [
             'id'        => $this->id,
-            'name'      => $this->foodStuff->name,
+            'name'      => $this->food_name,
             'count'     => $this->count
         ];
     }

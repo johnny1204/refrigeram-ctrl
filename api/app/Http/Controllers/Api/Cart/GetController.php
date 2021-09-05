@@ -11,9 +11,6 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
  *   path="/api/cart/",
  *   tags={"カート"},
  *   summary="カート取得",
- *   @OA\Parameter(
- *     ref="#/components/parameters/X-XSRF-TOKEN"
- *   ),
  *   @OA\Response(
  *     response="200",
  *     description="success",

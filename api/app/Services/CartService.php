@@ -16,10 +16,14 @@ class CartService
      *
      * @return array
      */
-    public function update(array $data): array
+    public function save(array $data): array
     {
-        $cartItem = $this->repo->findCartByFoodStuffName($data['food_name']);
-        $this->repo->updateCountByCartId($data['count'], $cartItem->id);
+        $cartItem = $this->repo->findCartByFoodName($data['food_name']);
+        if ($cartItem) {
+            $this->repo->updateCountByCartId($data['count'], $cartItem->id);
+        } else {
+            $this->repo->createCartItem($data);
+        }
 
         return ['success' => 200];
     }

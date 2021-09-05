@@ -22,7 +22,7 @@ class CartFactory extends Factory
     public function definition()
     {
         return [
-            'food_stuff_id' => FoodStuff::factory()->create()->id,
+            'food_name'     => FoodStuff::factory()->create()->name,
             'count'         => rand(1, 10)
         ];
     }

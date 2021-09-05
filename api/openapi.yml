@@ -15,9 +15,6 @@ paths:
       tags:
         - カート
       summary: カート取得
-      parameters:
-        -
-          $ref: '#/components/parameters/X-XSRF-TOKEN'
       responses:
         '200':
           description: success
@@ -151,10 +148,10 @@ components:
     FoodTypeListResource:
       description: 食品タイプリストアイテム
       required:
-        - id
+        - type
         - name
       properties:
-        id:
+        type:
           description: ID
           type: string
           example: meat

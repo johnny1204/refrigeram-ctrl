@@ -1,7 +1,9 @@
 <?php
 namespace App\Http\Requests\Cart;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class UpdateRequest extends FormRequest
 {
@@ -12,7 +14,7 @@ class UpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +26,17 @@ class UpdateRequest extends FormRequest
     {
         return [
             'food_name' => 'required|string',
-            'count'     => 'required|integer|min:1',
+            'count'     => 'required|integer|min:0',
         ];
+    }
+
+    /**
+     * @param Validator $validator
+     */
+    public function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(
+            response()->json(['message' => $validator->getMessageBag()->first()], 422)
+        );
     }
 }

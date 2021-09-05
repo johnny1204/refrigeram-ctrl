@@ -82,7 +82,7 @@ class UpdateController extends Controller
      */
     public function __invoke(UpdateRequest $request, CartService $service): JsonResponse
     {
-        $resource = $service->update($request->all());
+        $resource = $service->save($request->all());
 
         return response()->json(['result' => $resource]);
     }

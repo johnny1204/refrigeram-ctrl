@@ -15,7 +15,7 @@ class CreateCarts extends Migration
     {
         Schema::create('carts', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('food_stuff_id')->unsigned();
+            $table->string('food_name')->unique();
             $table->integer('count')->default(0);
             $table->timestamps();
         });
