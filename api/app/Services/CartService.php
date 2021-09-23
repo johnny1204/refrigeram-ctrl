@@ -20,12 +20,12 @@ class CartService
     {
         $cartItem = $this->repo->findCartByFoodName($data['food_name']);
         if ($cartItem) {
-            $this->repo->updateCountByCartId($data['count'], $cartItem->id);
+            $cart = $this->repo->updateCountByCartId($data['count'], $cartItem->id);
         } else {
-            $this->repo->createCartItem($data);
+            $cart = $this->repo->createCartItem($data);
         }
 
-        return ['success' => 200];
+        return ['name' => $cart->food_name, 'count' => $cart->count];
     }
 
     /**

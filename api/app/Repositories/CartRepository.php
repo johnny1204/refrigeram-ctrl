@@ -20,12 +20,14 @@ class CartRepository
      * @param integer $count
      * @param integer $cartId
      *
-     * @return void
+     * @return Cart
      */
-    public function updateCountByCartId(int $count, int $cartId): void
+    public function updateCountByCartId(int $count, int $cartId): Cart
     {
         $cart = Cart::find($cartId);
         $cart->fill(['count' => $count])->save();
+
+        return $cart;
     }
 
     /**
@@ -38,9 +40,13 @@ class CartRepository
 
     /**
      * @param array $data
+     *
+     * @return Cart
      */
-    public function createCartItem(array $data): void
+    public function createCartItem(array $data): Cart
     {
-        Cart::create(['food_name' => $data['food_name'], 'count' => $data['count']]);
+        $cart = Cart::create(['food_name' => $data['food_name'], 'count' => $data['count']]);
+
+        return $cart;
     }
 }

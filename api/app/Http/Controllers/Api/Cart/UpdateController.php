@@ -40,19 +40,25 @@ use Illuminate\Http\JsonResponse;
  *     description="success",
  *     @OA\JsonContent(
  *       @OA\Property(
- *         property="result",
+ *         property="data",
  *         description="結果",
  *         allOf={
  *           @OA\Schema(
  *             schema="Data",
  *             type="object",
- *             required={"success"},
+ *             required={"name", "count"},
  *             @OA\Property(
- *               property="success",
- *               type="integer",
- *               description="サクセスコード",
- *               example=200
- *             )
+ *                 property="name",
+ *                 type="string",
+ *                 description="食品名",
+ *                 example="鶏胸肉"
+ *             ),
+ *             @OA\Property(
+ *                 property="count",
+ *                 type="integer",
+ *                 description="個数",
+ *                 example=2
+ *             ),
  *           ),
  *         }
  *       )
@@ -84,6 +90,6 @@ class UpdateController extends Controller
     {
         $resource = $service->save($request->all());
 
-        return response()->json(['result' => $resource]);
+        return response()->json(['data' => $resource]);
     }
 }

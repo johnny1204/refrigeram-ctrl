@@ -56,7 +56,7 @@ paths:
             application/json:
               schema:
                 properties:
-                  result: { description: 結果, allOf: [{ schema: Data, required: [success], properties: { success: { description: サクセスコード, type: integer, example: 200 } }, type: object }] }
+                  data: { description: 結果 }
                 type: object
         '400':
           description: パラメータ不足
