@@ -20,12 +20,17 @@ class CartRepository
      * @param integer $count
      * @param integer $cartId
      *
-     * @return Cart
+     * @return Cart|null
      */
-    public function updateCountByCartId(int $count, int $cartId): Cart
+    public function updateCountByCartId(int $count, int $cartId): ?Cart
     {
         $cart = Cart::find($cartId);
-        $cart->fill(['count' => $count])->save();
+        if ($count > 0) {
+            $cart->fill(['count' => $count])->save();
+        } else {
+            $cart->delete();
+            return null;
+        }
 
         return $cart;
     }

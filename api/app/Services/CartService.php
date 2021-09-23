@@ -25,7 +25,11 @@ class CartService
             $cart = $this->repo->createCartItem($data);
         }
 
-        return ['name' => $cart->food_name, 'count' => $cart->count];
+        if ($cart) {
+            return ['name' => $cart->food_name, 'count' => $cart->count];
+        } else {
+            return ['name' => $data['food_name'], 'count' => 0];
+        }
     }
 
     /**
