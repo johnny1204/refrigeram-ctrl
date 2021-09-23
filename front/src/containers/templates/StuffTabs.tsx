@@ -13,7 +13,7 @@ const StuffTabs: FC = () => {
 		// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 		async function getTypes() {
 			const resp = await axios.get<FoodTypeApiResponse>(
-				'http://localhost:8080/api/food_type'
+				'http://192.168.11.9:8080/api/food_type'
 			);
 
 			return resp;

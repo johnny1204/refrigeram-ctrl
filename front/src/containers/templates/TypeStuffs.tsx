@@ -1,3 +1,4 @@
+/* eslint-disable prefer-arrow/prefer-arrow-functions */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 import axios from 'axios';
 import { FC, useEffect, useState } from 'react';
@@ -8,13 +9,12 @@ import { FoodStuff, FoodStuffApiResponse } from '../../data/data';
 
 const FoodStuffs: FC = () => {
 	const { stuffTypeId } = useParams<{ stuffTypeId: string }>();
-
 	const [foods, setFoods] = useState<FoodStuff[]>();
+
 	useEffect(() => {
-		// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 		async function getFoods() {
 			const resp = await axios.get<FoodStuffApiResponse>(
-				'http://localhost:8080/api/food_stuff',
+				'http://192.168.11.9:8080/api/food_stuff',
 				{
 					params: {
 						type_name: stuffTypeId,

@@ -1,3 +1,4 @@
+/* eslint-disable prefer-arrow/prefer-arrow-functions */
 import axios from 'axios';
 import { FC, useEffect, useState } from 'react';
 import { Loader } from 'semantic-ui-react';
@@ -6,11 +7,11 @@ import { FoodStuff, FoodStuffApiResponse } from '../../data/data';
 
 const FoodStuffs: FC = () => {
 	const [foods, setFoods] = useState<FoodStuff[]>();
+
 	useEffect(() => {
-		// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 		async function getFoods() {
 			const resp = await axios.get<FoodStuffApiResponse>(
-				'http://localhost:8080/api/food_stuff'
+				'http://192.168.11.9:8080/api/food_stuff'
 			);
 
 			return resp;

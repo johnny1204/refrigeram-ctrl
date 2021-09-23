@@ -4,6 +4,7 @@ import { Form } from 'semantic-ui-react';
 import Counter from './Counter';
 import FoodSelect from '../../components/atoms/FoodSelect';
 import FoodInput from '../../components/atoms/FoodInput';
+import { CartItem } from '../../data/data';
 
 type Props = {
 	options: {
@@ -12,19 +13,27 @@ type Props = {
 		value: string;
 	}[];
 	disabledSubmit: (disabled: boolean) => void;
+	setItem: (item: CartItem) => void;
 };
 
-const CartModalForm: FC<Props> = ({ options, disabledSubmit }) => {
+const CartModalForm: FC<Props> = ({ options, disabledSubmit, setItem }) => {
 	const [foodName, setFoodName] = useState('');
 	const [selectFoodName, setSelectFoodName] = useState('');
 	const [count, setCount] = useState(0);
 	const [disabledSelect, setDisabledSelect] = useState(false);
 
-	useEffect(() => disabledSubmit(!(count > 0 && foodName.length > 0)), [
-		disabledSubmit,
-		foodName,
-		count,
-	]);
+	useEffect(() => {
+		disabledSubmit(!(count > 0 && foodName.length > 0));
+	}, [disabledSubmit, foodName, count]);
+
+	useEffect(() => {
+		if (count > 0 && foodName.length > 0) {
+			setItem({
+				name: foodName,
+				count,
+			});
+		}
+	}, [count, foodName, setItem]);
 
 	return (
 		<Form>

@@ -15,6 +15,12 @@ export type CartItem = {
 	count: number;
 };
 
+export type foodsOption = {
+	key: string;
+	text: string;
+	value: string;
+};
+
 export type CartApiResponse = {
 	data: CartItem[];
 };
@@ -25,4 +31,8 @@ export type FoodStuffApiResponse = {
 
 export type FoodTypeApiResponse = {
 	data: FoodType[];
+};
+
+export type UpdateCartApiResponse = {
+	data: CartItem;
 };

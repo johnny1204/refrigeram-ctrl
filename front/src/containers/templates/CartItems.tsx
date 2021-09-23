@@ -1,17 +1,36 @@
+import axios from 'axios';
 import { FC, useEffect, useState } from 'react';
-import { Grid } from 'semantic-ui-react';
-import { CartItem } from '../../data/data';
+import { Grid, Loader } from 'semantic-ui-react';
+import {
+	CartApiResponse,
+	CartItem,
+	UpdateCartApiResponse,
+} from '../../data/data';
 import CartCounter from '../molecules/CartCounter';
 import CartModal from './CartModal';
 
-type Props = {
-	items: CartItem[];
-};
+const CartItems: FC = () => {
+	const [itemList, setItems] = useState<CartItem[]>();
+	useEffect(() => {
+		// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
+		async function getCart() {
+			const resp = await axios.get<CartApiResponse>(
+				'http://192.168.11.9:8080/api/cart'
+			);
 
-const CartItems: FC<Props> = ({ items }) => {
-	const [itemList, setItems] = useState(items);
+			return resp;
+		}
+
+		void getCart()
+			.then((resp) => resp.data)
+			.then((data) => setItems(data.data));
+	}, []);
 
 	const createCart = (item: CartItem) => {
+		if (!itemList) {
+			return;
+		}
+
 		if (item.count < 1) {
 			const filterItems = itemList.filter((i) => i.name !== item.name);
 
@@ -28,33 +47,46 @@ const CartItems: FC<Props> = ({ items }) => {
 		}
 	};
 
-	useEffect(() => {
-		setItems(items);
-	}, [items, itemList]);
+	const updateCart = async (item: CartItem) => {
+		await axios
+			.put<UpdateCartApiResponse>(
+				'http://192.168.11.9:8080/api/cart/update',
+				{
+					food_name: item.name,
+					count: item.count,
+				}
+			)
+			.then((resp) => resp.data)
+			.then((data) => createCart(data.data));
+	};
 
-	return (
-		<Grid style={{ margin: 20 }}>
-			<div style={{ margin: 20 }}>
-				<CartModal />
-			</div>
-			{itemList.map((item, i) => (
-				// eslint-disable-next-line react/no-array-index-key
-				<Grid.Row key={i}>
-					<Grid.Column width={8}>
-						<Grid columns={2}>
-							<Grid.Column>{item.name}</Grid.Column>
-							<Grid.Column>
-								<CartCounter
-									cartItem={item}
-									createCart={(it) => createCart(it)}
-								/>
-							</Grid.Column>
-						</Grid>
-					</Grid.Column>
-				</Grid.Row>
-			))}
-		</Grid>
-	);
+	if (itemList) {
+		return (
+			<Grid style={{ margin: 20 }}>
+				<div style={{ margin: 20 }}>
+					<CartModal />
+				</div>
+				{itemList.map((item, i) => (
+					// eslint-disable-next-line react/no-array-index-key
+					<Grid.Row key={i}>
+						<Grid.Column width={8}>
+							<Grid columns={2}>
+								<Grid.Column>{item.name}</Grid.Column>
+								<Grid.Column>
+									<CartCounter
+										cartItem={item}
+										createCart={(it) => updateCart(it)}
+									/>
+								</Grid.Column>
+							</Grid>
+						</Grid.Column>
+					</Grid.Row>
+				))}
+			</Grid>
+		);
+	}
+
+	return <Loader active size="large" />;
 };
 
 export default CartItems;

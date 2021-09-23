@@ -2,23 +2,25 @@ import axios from 'axios';
 import { FC, useEffect, useState } from 'react';
 import { Button, Icon, Modal } from 'semantic-ui-react';
 import CartModalForm from '../molecules/CartModalForm';
-import { FoodStuffApiResponse } from '../../data/data';
+import {
+	CartItem,
+	FoodStuffApiResponse,
+	foodsOption,
+	UpdateCartApiResponse,
+} from '../../data/data';
+import CartSubmitButton from '../../components/atoms/CartSubmitButton';
 
 const CartModal: FC = () => {
 	const [open, setOpen] = useState(false);
 	const [disabled, setDisableSubmit] = useState(true);
 
-	type foodsOption = {
-		key: string;
-		text: string;
-		value: string;
-	};
+	const [food, setFood] = useState<CartItem>();
 	const [foods, setFoods] = useState<foodsOption[]>();
 	useEffect(() => {
 		// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 		async function getFoods() {
 			const resp = await axios.get<FoodStuffApiResponse>(
-				'http://localhost:8080/api/food_stuff'
+				'http://192.168.11.9:8080/api/food_stuff'
 			);
 
 			return resp;
@@ -27,14 +29,29 @@ const CartModal: FC = () => {
 		void getFoods()
 			.then((resp) => resp.data)
 			.then((data) =>
-				data.data.map((food) => ({
-					key: food.name,
-					text: food.name,
-					value: food.name,
+				data.data.map((f) => ({
+					key: f.name,
+					text: f.name,
+					value: f.name,
 				}))
 			)
 			.then((foodStuffs) => setFoods(foodStuffs));
 	}, []);
+
+	const submitAction = async () => {
+		await axios
+			.put<UpdateCartApiResponse>(
+				'http://192.168.11.9:8080/api/cart/update',
+				{
+					food_name: food?.name,
+					count: food?.count,
+				}
+			)
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-return
+			.then((resp) => resp.data)
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+			.then(() => setOpen(false));
+	};
 
 	return (
 		<Modal
@@ -55,19 +72,17 @@ const CartModal: FC = () => {
 					<CartModalForm
 						options={foods}
 						disabledSubmit={(result) => setDisableSubmit(result)}
+						setItem={(item) => setFood(item)}
 					/>
 				</Modal.Content>
 			) : (
 				<Modal.Content />
 			)}
 			<Modal.Actions>
-				<Button
-					color="green"
-					onClick={() => setOpen(false)}
+				<CartSubmitButton
+					submit={() => submitAction()}
 					disabled={disabled}
-				>
-					<Icon name="checkmark" /> 登録
-				</Button>
+				/>
 			</Modal.Actions>
 		</Modal>
 	);
