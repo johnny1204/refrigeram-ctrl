@@ -15,7 +15,7 @@ const CartItems: FC = () => {
 		// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 		async function getCart() {
 			const resp = await axios.get<CartApiResponse>(
-				'http://192.168.11.9:8080/api/cart'
+				'http://192.168.11.7:8080/api/cart'
 			);
 
 			return resp;
@@ -50,7 +50,7 @@ const CartItems: FC = () => {
 	const updateCart = async (item: CartItem) => {
 		await axios
 			.put<UpdateCartApiResponse>(
-				'http://192.168.11.9:8080/api/cart/update',
+				'http://192.168.11.7:8080/api/cart/update',
 				{
 					food_name: item.name,
 					count: item.count,

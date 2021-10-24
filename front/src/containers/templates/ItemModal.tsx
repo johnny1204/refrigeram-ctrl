@@ -20,7 +20,7 @@ const ItemModal: FC = () => {
 	useEffect(() => {
 		async function getTypes() {
 			const resp = await axios.get<FoodTypeApiResponse>(
-				'http://192.168.11.9:8080/api/food_type'
+				'http://192.168.11.7:8080/api/food_type'
 			);
 
 			return resp;

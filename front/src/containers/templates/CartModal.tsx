@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { FC, useEffect, useState } from 'react';
 import { Button, Icon, Modal } from 'semantic-ui-react';
+import { useHistory } from 'react-router';
 import CartModalForm from '../molecules/CartModalForm';
 import {
 	CartItem,
@@ -8,7 +9,7 @@ import {
 	foodsOption,
 	UpdateCartApiResponse,
 } from '../../data/data';
-import CartSubmitButton from '../../components/atoms/CartSubmitButton';
+import CartSubmitButton from '../atoms/CartSubmitButton';
 
 const CartModal: FC = () => {
 	const [open, setOpen] = useState(false);
@@ -16,11 +17,14 @@ const CartModal: FC = () => {
 
 	const [food, setFood] = useState<CartItem>();
 	const [foods, setFoods] = useState<foodsOption[]>();
+
+	const history = useHistory();
+
 	useEffect(() => {
 		// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 		async function getFoods() {
 			const resp = await axios.get<FoodStuffApiResponse>(
-				'http://192.168.11.9:8080/api/food_stuff'
+				'http://192.168.11.7:8080/api/food_stuff'
 			);
 
 			return resp;
@@ -41,16 +45,15 @@ const CartModal: FC = () => {
 	const submitAction = async () => {
 		await axios
 			.put<UpdateCartApiResponse>(
-				'http://192.168.11.9:8080/api/cart/update',
+				'http://192.168.11.7:8080/api/cart/update',
 				{
 					food_name: food?.name,
 					count: food?.count,
 				}
 			)
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-return
 			.then((resp) => resp.data)
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-			.then(() => setOpen(false));
+			.then(() => setOpen(false))
+			.then(() => history.go(0)); // カート更新暫定対応
 	};
 
 	return (

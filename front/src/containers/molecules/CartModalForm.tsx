@@ -17,23 +17,24 @@ type Props = {
 };
 
 const CartModalForm: FC<Props> = ({ options, disabledSubmit, setItem }) => {
-	const [foodName, setFoodName] = useState('');
-	const [selectFoodName, setSelectFoodName] = useState('');
+	const [foodName, setFoodName] = useState<string>();
+	const [selectFoodName, setSelectFoodName] = useState<string>();
 	const [count, setCount] = useState(0);
 	const [disabledSelect, setDisabledSelect] = useState(false);
 
 	useEffect(() => {
-		disabledSubmit(!(count > 0 && foodName.length > 0));
+		disabledSubmit(!(count > 0 && foodName && foodName.length > 0));
 	}, [disabledSubmit, foodName, count]);
 
 	useEffect(() => {
-		if (count > 0 && foodName.length > 0) {
+		if (count > 0 && foodName && foodName.length > 0) {
 			setItem({
 				name: foodName,
 				count,
 			});
 		}
-	}, [count, foodName, setItem]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [count, foodName]);
 
 	return (
 		<Form>

@@ -14,7 +14,7 @@ const FoodStuffs: FC = () => {
 	useEffect(() => {
 		async function getFoods() {
 			const resp = await axios.get<FoodStuffApiResponse>(
-				'http://192.168.11.9:8080/api/food_stuff',
+				'http://192.168.11.7:8080/api/food_stuff',
 				{
 					params: {
 						type_name: stuffTypeId,
