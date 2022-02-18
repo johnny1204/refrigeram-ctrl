@@ -1,4 +1,4 @@
-FROM php:8.0.5-fpm
+FROM php:8.1-fpm
 
 COPY conf /usr/local/etc/php/conf.d
 
